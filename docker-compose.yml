@@ -1,0 +1,22 @@
+version: '2.3'
+services:
+  kaggle-gpu:
+    build:
+      context: ./Docker/kaggle-gpu
+      dockerfile: gpu.Dockerfile
+    container_name: kaggle-gpu_nlp
+    user: "${UID}:${GID}"
+    runtime: nvidia
+    command: /bin/bash
+    command: jupyter lab --port 9999 --ip=0.0.0.0  --allow-root --NotebookApp.token='' --NotebookApp.password=''
+    ports:
+      - "7000:7000"
+      - "9999:9999"
+    environment:
+      - TZ=$TZ
+      - LANG=$LANG
+    tty: true
+    volumes:
+      - ./:/home/kyokawa
+      - /etc/passwd:/etc/passwd:ro
+      - /etc/group:/etc/group:ro
